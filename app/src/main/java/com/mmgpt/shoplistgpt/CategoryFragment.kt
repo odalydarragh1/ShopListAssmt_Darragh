@@ -13,10 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mmgpt.shoplistgpt.adapter.ItemAdapter
 import com.mmgpt.shoplistgpt.databinding.FragmentCategoryBinding
 
-/**
- * One category page for both modes. Shop checks and flags items.
- * Plan adds, edits, deletes, reorders, and selects all.
- */
 class CategoryFragment : Fragment() {
 
     private val viewModel: ShoppingListViewModel by activityViewModels()
@@ -43,6 +39,7 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        if (planMode) binding.chkSelectAll.visibility = View.VISIBLE
         val adapter = if (planMode) planAdapter() else shopAdapter()
         binding.recyclerView.adapter = adapter
 
@@ -80,7 +77,6 @@ class CategoryFragment : Fragment() {
     }
 
     private fun planAdapter(): ItemAdapter {
-        binding.chkSelectAll.visibility = View.VISIBLE
         lateinit var adapter: ItemAdapter
         val dragHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
